@@ -99,6 +99,44 @@ fun main() {
 
 
     /////// Advanced - ISBN validation ///////
+    println("\nAdvanced - ISBN validation")
+
+    val isbnOne: String = "3-598-21508-8"; // true
+    val isbnTwo: String = "0-439-42089-X"; // true
+    val isbnThree: String = "043942089X"; // true
+    val isbnFour: String = "043942089"; // false -- missing X
+    val isbnFive: String = "0-43942-089-29-011-23"; // false -- Too long and formula calc is false
+
+    println("Is this $isbnOne a valid ISBN number: ${isValidISBN(isbnOne)}");
+    println("Is this $isbnTwo a valid ISBN number: ${isValidISBN(isbnTwo)}");
+    println("Is this $isbnThree a valid ISBN number: ${isValidISBN(isbnThree)}");
+    println("Is this $isbnFour a valid ISBN number: ${isValidISBN(isbnFour)}");
+    println("Is this $isbnFive a valid ISBN number: ${isValidISBN(isbnFive)}");
+}
+
+fun isValidISBN(isbn: String): Boolean {
+    val isbnCleaned: String = isbn.replace("-", "")
+
+    if (isbnCleaned.length != 10)
+        return false
+
+    // ISBN-10 formula from hand-in:
+    // (x1 * 10 + x2 * 9 + x3 * 8 + x4 * 7 + x5 * 6 + x6 * 5 + x7 * 4 + x8 * 3 + x9 * 2 + x10 * 1) mod 11 == 0
+    var n: Int = 10
+    var value: Int = 0
+
+    for (char in isbnCleaned) {
+        if (char.isDigit())
+            value += char.digitToInt() * n
+        else if (char == 'X')
+            value += 10 * n
+        else
+            return false // invalid character -> not a valid ISBN
+
+        n--
+    }
+
+    return (value % 11 == 0)
 }
 
 fun getMax(a: Int, b: Int, c: Int): Int {
