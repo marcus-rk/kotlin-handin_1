@@ -114,31 +114,6 @@ fun main() {
     println("Is this $isbnFive a valid ISBN number: ${isValidISBN(isbnFive)}");
 }
 
-fun isValidISBN(isbn: String): Boolean {
-    val isbnCleaned: String = isbn.replace("-", "")
-
-    if (isbnCleaned.length != 10)
-        return false
-
-    // ISBN-10 formula from hand-in:
-    // (x1 * 10 + x2 * 9 + x3 * 8 + x4 * 7 + x5 * 6 + x6 * 5 + x7 * 4 + x8 * 3 + x9 * 2 + x10 * 1) mod 11 == 0
-    var n: Int = 10
-    var value: Int = 0
-
-    for (char in isbnCleaned) {
-        if (char.isDigit())
-            value += char.digitToInt() * n
-        else if (char == 'X')
-            value += 10 * n
-        else
-            return false // invalid character -> not a valid ISBN
-
-        n--
-    }
-
-    return (value % 11 == 0)
-}
-
 fun getMax(a: Int, b: Int, c: Int): Int {
     val numbers: List<Int> = listOf(a, b, c)
     var currentMax: Int = a
@@ -226,4 +201,30 @@ fun calculateGrade(score: Int): Char {
 fun filterWordsByLength(words: List<String>, minimumLength: Int): List<String> {
     val filteredWords: List<String> = words.filter { it.length >= minimumLength };
     return filteredWords;
+}
+
+
+fun isValidISBN(isbn: String): Boolean {
+    val isbnCleaned: String = isbn.replace("-", "")
+
+    if (isbnCleaned.length != 10)
+        return false
+
+    // ISBN-10 formula from hand-in:
+    // (x1 * 10 + x2 * 9 + x3 * 8 + x4 * 7 + x5 * 6 + x6 * 5 + x7 * 4 + x8 * 3 + x9 * 2 + x10 * 1) mod 11 == 0
+    var n: Int = 10
+    var value: Int = 0
+
+    for (char in isbnCleaned) {
+        if (char.isDigit())
+            value += char.digitToInt() * n
+        else if (char == 'X')
+            value += 10 * n
+        else
+            return false // invalid character -> not a valid ISBN
+
+        n--
+    }
+
+    return (value % 11 == 0)
 }
