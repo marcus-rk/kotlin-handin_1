@@ -27,15 +27,17 @@ fun main() {
 
     /////// Exercise 3. ///////
     println("\nExercise 3")
+
     val numbers: List<Int> = listOf(1, 10, 2, 30, 99)
-    println("Average is: ${calculateAverage(numbers)}")
+    println("Average of $numbers is: ${calculateAverage(numbers)}")
 
 
     /////// Exercise 4. ///////
     println("\nExercise 4")
-    println("Please write your CPR number:")
 
+    println("Please write your CPR number:")
     val cprInput: String? = readlnOrNull();
+
     if (cprInput != null)
         println("Is this a valid CPR number: ${isValidCPR(cprInput)}")
 
@@ -44,24 +46,12 @@ fun main() {
     println("\nExercise 5")
 
     for (i in 1..100) {
-        var isMultiple: Boolean = false;
-
-        if (i % 3 == 0) {
-            isMultiple = true
-            print("Fizz")
+        when {
+            i % 3 == 0 && i % 5 == 0 -> println("FizzBuzz")
+            i % 3 == 0 -> println("Fizz")
+            i % 5 == 0 -> println("Buzz")
+            else -> println(i)
         }
-
-        if (i % 5 == 0) {
-            isMultiple = true
-            print("Buzz")
-        }
-
-        if (!isMultiple) {
-            print(i)
-        }
-
-        // Need new line after iteration
-        println()
     }
 
 
@@ -172,7 +162,7 @@ fun isValidCPR(cpr: String): Boolean {
 }
 
 fun abbreviationMaker(fullName: String): String {
-    val names = fullName.split(" ")
+    val names: List<String> = fullName.split(" ")
     var abbreviation: String = "";
 
     for (name in names) {
@@ -202,7 +192,6 @@ fun filterWordsByLength(words: List<String>, minimumLength: Int): List<String> {
     val filteredWords: List<String> = words.filter { it.length >= minimumLength };
     return filteredWords;
 }
-
 
 fun isValidISBN(isbn: String): Boolean {
     val isbnCleaned: String = isbn.replace("-", "")
